@@ -5,10 +5,9 @@ import requests
 from constants import URL_UPDATE_PRICES
 
 
-def make_price_update(offer_id, price, old_price, min_price):
+def make_prices_update(offer_id, price, old_price, min_price):
     headers = {'Client-Id': os.environ['OZON_CLIENT_ID'], 'Api-Key': os.environ['OZON_API_KEY'],
                'Content-Type': 'application/json'}
-
     params = {
         'prices':[
             {
@@ -28,6 +27,7 @@ def make_price_update(offer_id, price, old_price, min_price):
             return result
         except ValueError:
             print('Ошибка сформированных данных')
+            return None
     else:
         print('Сетевая ошибка')
         print(response.status_code)
@@ -35,9 +35,11 @@ def make_price_update(offer_id, price, old_price, min_price):
 
 
 def update_prices(report):
-    offer_id = report['offer_id']
-    price = report['price']
-    old_price = report['old_price']
-    min_price = report['min_price']
-    response_report = make_price_update(offer_id, price, old_price, min_price)
-    return response_report
+    if report is not None:
+        offer_id = report['offer_id']
+        price = report['price']
+        old_price = report['old_price']
+        min_price = report['min_price']
+        response_report = make_prices_update(offer_id, price, old_price, min_price)
+        if response_report:
+            return response_report

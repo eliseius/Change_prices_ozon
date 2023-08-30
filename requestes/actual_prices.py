@@ -11,9 +11,9 @@ def get_price_raw(offer_id):
 
     params = {
         "filter": {
-            "offer_id": offer_id
+            "offer_id": [offer_id],
         },
-        "limit": 100
+        "limit": 100,
     }
 
     params = json.dumps(params)
@@ -24,13 +24,14 @@ def get_price_raw(offer_id):
             return report
         except ValueError:
             print('Ошибка сформированных данных')
+            return None
     else:
         print('Сетевая ошибка')
         print(response.status_code)
-    return None
+        return None
 
 
-def short_report(report):
+def make_short_report(report):
     info_product = report['result']['items'][0]
     prices = info_product['price']
     short_report = {
@@ -44,5 +45,8 @@ def short_report(report):
 
 def get_actual_prices(offer_id):
     report = get_price_raw(offer_id)
-    short_report = short_report(report)
-    return short_report
+    if report:
+        short_report = make_short_report(report)
+        return short_report
+    else:
+        return None
