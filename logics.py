@@ -7,9 +7,7 @@ def check_prices(prices_finish, prices_start):
         for key in keys:
             if prices_finish[key] != prices_start[key]:
                 return make_updated_prices(prices_finish, prices_start)
-                break
         return None
-        break
 
 
 def make_updated_prices(prices_finish, prices_start):
@@ -24,9 +22,6 @@ def make_updated_prices(prices_finish, prices_start):
 
 
 def compare(price_finish, price_start, rate):
-    price_finish = int(price_finish)
-    price_start = int(price_start)
-
     if price_finish > price_start:
         price = int(round(price_start * (1 + rate / 100), 0))
         if price_finish < price:
@@ -43,30 +38,9 @@ def compare(price_finish, price_start, rate):
 def check_update_prices(report, prices_finish):
     if report is None:
         delete_element(prices_finish)#Можно записать в логи
-    
 
 
 def get_updated_prices(prices_finish, prices_start):
     updated_prices = check_prices(prices_finish, prices_start)
     check_update_prices(updated_prices, prices_finish)
     return updated_prices
-
-
-if __name__ == '__main__':
-    data = 'G0023;573;828;486'
-
-    data_1 = {
-        'offer_id': 'G0023',
-        'price': '700',
-        'old_price': '825',
-        'min_price': '435',
-        'rate': 2,
-    }
-    data_2 = {
-        'offer_id': 'G0023',
-        'price': '573',
-        'old_price': '828',
-        'min_price': '487'
-    }
-
-    print(get_updated_prices(data_1, data_2))

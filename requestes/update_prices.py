@@ -1,12 +1,12 @@
 import json
-import os
 import requests
 
 from constants import URL_UPDATE_PRICES
+from settings import OZON_API_KEY, OZON_CLIENT_ID
 
 
-def make_prices_update(offer_id, price, old_price, min_price):
-    headers = {'Client-Id': os.environ['OZON_CLIENT_ID'], 'Api-Key': os.environ['OZON_API_KEY'],
+def make_prices_update(offer_id, price, old_price, min_price):#Сделать запись в логи
+    headers = {'Client-Id': OZON_CLIENT_ID, 'Api-Key': OZON_API_KEY,
                'Content-Type': 'application/json'}
     params = {
         'prices':[

@@ -1,12 +1,12 @@
 import json
-import os
 import requests
 
 from constants import URL_INFO_PRICES
+from settings import OZON_API_KEY, OZON_CLIENT_ID
 
 
 def get_price_raw(offer_id):
-    headers = {'Client-Id': os.environ['OZON_CLIENT_ID'], 'Api-Key': os.environ['OZON_API_KEY'],
+    headers = {'Client-Id': OZON_CLIENT_ID, 'Api-Key': OZON_API_KEY,
                'Content-Type': 'application/json'}
 
     params = {
@@ -36,9 +36,9 @@ def make_short_report(report):
     prices = info_product['price']
     short_report = {
         'offer_id': info_product['offer_id'],
-        'price': prices['price'],
-        'old_price': prices['old_price'],
-        'min_price': prices['min_price']
+        'price': int(float(prices['price'])),
+        'old_price': int(float(prices['old_price'])),
+        'min_price': int(float(prices['min_price'])),
     }
     return short_report
 
